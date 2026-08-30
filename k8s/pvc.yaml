@@ -4,7 +4,7 @@ metadata:
   name: dataset-pvc
   namespace: ml-training
 spec:
-  accessModes: ["ReadWriteMany"]
+  accessModes: ["ReadWriteOnce"]
   resources:
     requests:
       storage: 10Gi
@@ -15,7 +15,7 @@ metadata:
   name: checkpoint-pvc
   namespace: ml-training
 spec:
-  accessModes: ["ReadWriteMany"]
+  accessModes: ["ReadWriteOnce"]
   resources:
     requests:
       storage: 2Gi
