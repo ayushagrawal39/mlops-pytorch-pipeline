@@ -12,7 +12,17 @@ flowchart LR
   S --> A[HPA]
 ```
 
-## Run locally
+## Local training (no Docker)
+
+```bash
+python -m pytest -q
+python src/train.py --config configs/training_config.yaml
+```
+
+Override the config path with `TRAINING_CONFIG`. Checkpoints are written under
+`output.checkpoint_dir` from the YAML file.
+
+## Run locally with Docker
 
 The training image downloads CIFAR-10 into the mounted `data` directory and
 writes the best early-stopped checkpoint to `checkpoints`.
@@ -26,8 +36,8 @@ curl http://localhost:8080/health
 curl -X POST http://localhost:8080/predict -F image=@test_image.png
 ```
 
-Create `test_image.png` as any 32x32 (or larger) RGB image. Dependencies are
-pinned in `requirements/`; `pytest -q` runs the model tests.
+Generate a sample image with `python scripts/make_test_image.py`. Dependencies
+are pinned in `requirements/`; `pytest -q` runs the model tests.
 
 ## Kubernetes
 
@@ -49,9 +59,8 @@ kubectl port-forward svc/model-serving 8080:80 -n ml-training
 curl -X POST http://localhost:8080/predict -F image=@test_image.png
 ```
 
-The PVCs use `ReadWriteMany`; change the storage class/access mode for a
-cluster that does not provide RWX storage. For Minikube, copy local data into
-the dataset PVC or use a pre-populated volume.
+The PVCs use `ReadWriteOnce` for default Minikube storage. Apply
+`k8s/secret.yaml` before the serving Deployment so `CHECKPOINT_PATH` is set.
 
 ## Git and submission checklist
 
