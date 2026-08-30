@@ -48,6 +48,7 @@ then apply:
 kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/pvc.yaml
 kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/secret.yaml
 kubectl apply -f k8s/training-job.yaml
 kubectl wait --for=condition=complete job/model-training -n ml-training --timeout=30m
 kubectl apply -f k8s/serving-deployment.yaml
