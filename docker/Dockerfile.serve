@@ -1,0 +1,10 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements/serve.txt .
+RUN pip install --no-cache-dir -r serve.txt && useradd --create-home appuser
+COPY src/ src/
+ENV PYTHONUNBUFFERED=1 CHECKPOINT_PATH=/app/checkpoints/classifier_v1.pt
+USER appuser
+EXPOSE 8080
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"
+ENTRYPOINT ["python", "src/serve.py"]

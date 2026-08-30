@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.py[cod]
+data/*
+checkpoints/*
+!data/.gitkeep
+!checkpoints/.gitkeep
+.DS_Store
+.env
