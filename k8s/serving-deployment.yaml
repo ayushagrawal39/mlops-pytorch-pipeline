@@ -18,6 +18,8 @@ spec:
       - name: serving
         image: mlops-serve:v1
         imagePullPolicy: IfNotPresent
+        envFrom:
+        - secretRef: {name: serving-secret}
         ports: [{containerPort: 8080}]
         resources:
           requests: {cpu: 500m, memory: 1Gi}
